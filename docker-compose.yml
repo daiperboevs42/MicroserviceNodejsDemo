@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  books:
+    image: books
+    build:
+      context: services/books
+      dockerfile: ./Dockerfile
+    environment:
+        NODE_ENV: production
+        AMQP_URL: amqps://rpjvuqrl:0d0c1RUA6Xxu7KViPcv4EPkdVZsMKYnk@rattlesnake.rmq.cloudamqp.com/rpjvuqrl
+        PORT: 3001
+    ports:
+        - 3001:3001
+    expose:
+        - 3001
+
+  customers:
+    image: customers
+    build:
+      context: services/customers
+      dockerfile: ./Dockerfile
+    environment:
+        NODE_ENV: production
+        AMQP_URL: amqps://rpjvuqrl:0d0c1RUA6Xxu7KViPcv4EPkdVZsMKYnk@rattlesnake.rmq.cloudamqp.com/rpjvuqrl
+        PORT: 3002
+    ports:
+        - 3002:3002
+    expose:
+        - 3002
