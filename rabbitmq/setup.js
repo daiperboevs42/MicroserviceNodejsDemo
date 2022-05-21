@@ -18,12 +18,16 @@ async function setup() {
     await channel.assertExchange("books", "direct", { durable: true });
 
     // create queues
-    await channel.assertQueue("books.getBook", { durable: true });
+    await channel.assertQueue("books.requestBook", { durable: true });
     await channel.assertQueue("books.recieveBook", { durable: true });
+    await channel.assertQueue("customers.requestCustomer", { durable: true });
+    await channel.assertQueue("customers.recieveCustomer", { durable: true });
 
     // bind queues
-    await channel.bindQueue("books.getBook","books", "getBook");
+    await channel.bindQueue("books.requestBook","books", "requestBook");
     await channel.bindQueue("books.recieveBook","books", "recieveBook");
+    await channel.bindQueue("customers.requestCustomer","customers", "requestCustomer");
+    await channel.bindQueue("customers.receiveCustomer","customers", "receiveCustomer");
 
     console.log("Setup Done");
     process.exit();

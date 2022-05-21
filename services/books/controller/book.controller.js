@@ -1,5 +1,6 @@
 'use strict';
-import { createBook as createBookService, getAllBooks as getAllBooksService} from '../service/book.service.js'
+import { createBook as createBookService, getAllBooks as getAllBooksService, 
+         getBookWithID as getBookWithIDService, deleteBook as deleteBookService} from '../service/book.service.js'
 
 let getAllBooks = function(request, response) {
     getAllBooksService(request, function(err, aListOfBooks) {
@@ -21,4 +22,24 @@ let createBook = function(req, res) {
     });
 };
 
-export { getAllBooks, createBook};
+let getBookWithID = function(request, response) {
+    getBookWithIDService(request, function(err, foundBook) {
+        if (err){
+            response(err, null);
+        }else{
+            response(null, foundBook);
+        }
+    })
+}
+
+let deleteBook = function(request, response) {
+    deleteBookService(request, function(err, bookToDelete) {
+        if (err){
+            response(err, null);
+        }else{
+            response(null, bookToDelete);
+        }
+    })
+}
+
+export { getAllBooks, createBook, getBookWithID, deleteBook};
