@@ -1,7 +1,7 @@
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 
-import {createBook ,getAllBooks, getBookWithID, deleteBook} from './controller/book.controller.js'
+import {createOrder ,getAllOrders, getOrderWithID} from './controller/order.controller.js'
 
 // Express
 
@@ -11,13 +11,13 @@ const bodyParser = require('body-parser');
 const http = require('http');
 const server = http.createServer(app);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3003;
 
 // Middleware
 app.use(bodyParser.json());
 
-app.get('/getAllBooks', function (req, res) {
-    getAllBooks(change, function(err, eventResult) {
+app.get('/getAllOrders', function (req, res) {
+    getAllOrders(change, function(err, eventResult) {
         if (err){
             console.log(err);
         }
@@ -27,10 +27,10 @@ app.get('/getAllBooks', function (req, res) {
     });
 });
 
-app.post('/createBook', function (req, res) {
-    let newBook = req.body;
-    console.log(newBook);
-    createBook(newBook, function(err, eventResult) {
+app.post('/createOrder', function (req, res) {
+    let newOrder = req.body;
+    console.log(newOrder);
+    createOrder(newOrder, function(err, eventResult) {
         if (err){
             console.log(err);
         }
@@ -40,9 +40,9 @@ app.post('/createBook', function (req, res) {
     });
 });
 
-app.get('/book/:id', (req, res) => {
+app.get('/order/:id', (req, res) => {
     let bookID = req.body;
-    getBookWithID(bookID, function(err, eventResult) {
+    getOrderWithID(bookID, function(err, eventResult) {
         if (err){
             console.log(err);
         }
@@ -51,18 +51,6 @@ app.get('/book/:id', (req, res) => {
         }
     });
 })
-
-app.delete('/book/:id', (req, res) => {
-    let bookID = req.body;
-    deleteBook(bookID, function(err, eventResult) {
-        if (err){
-            console.log(err);
-        }
-        else{
-            res.send(eventResult);
-        }
-    });
-});
 
 server.listen(PORT, function (err) {
     if (err) {

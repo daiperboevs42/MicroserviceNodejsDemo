@@ -1,15 +1,6 @@
 'use strict';
-import { getBookWithID as getBookWithIDService } from '../service/book.service.js'
-
+import { getBookWithID as getBookWithIDService } from '../service/book.service'
 import { listenForMessages } from './rabbitMQ/rabbitMQHelper.js'
-
-async function HandleUserDisconnect(message) {
-    serviceDisconnect(message, function(err, user) {
-        if (err){
-            res(err, null);
-        }
-    });
-}
 
 let getBookFromBookMicroservice = function(req, res) {
     publishToChannel( { routingKey: "getBook", exchangeName: "books", data: "1" });
@@ -35,36 +26,7 @@ const consume = function consume({ connection, channel, resultsChannel }) {
             // acknowledge message as processed successfully
             await channel.ack(msg);
         });
-  
-        channel.consume("users.disconnected", async function (msg) {
-            // parse message
-            let msgBody = msg.content.toString();
-            let data = JSON.parse(msgBody);
-  
-            // process data
-            HandleUserDisconnect(data);
-  
-            // acknowledge message as processed successfully
-            await channel.ack(msg);
-        });
-  
-        // handle connection closed
-        connection.on("close", (err) => {
-            return reject(err);
-        });
-  
-        // handle errors
-        connection.on("error", (err) => {
-            return reject(err);
-        });
     });
   }
 
 listenForMessages(consume);
-
-
-let getAllPlayersOnline = function() {
-    return getAllPlayers();
-};
-
-export { getAllPlayersOnline};

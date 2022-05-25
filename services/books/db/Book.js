@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import { mongoose }  from "mongoose"
 const bookSchema = mongoose.Schema({
   title: {
      type: String,
@@ -20,4 +20,4 @@ const bookSchema = mongoose.Schema({
 
 const Book = mongoose.model("book", bookSchema);
 
-module.exports = Book;
+export { Book }

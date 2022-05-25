@@ -28,3 +28,17 @@ services:
         - 3002:3002
     expose:
         - 3002
+        
+  orders:
+    image: orders
+    build:
+      context: services/orders
+      dockerfile: ./Dockerfile
+    environment:
+        NODE_ENV: production
+        AMQP_URL: amqps://rpjvuqrl:0d0c1RUA6Xxu7KViPcv4EPkdVZsMKYnk@rattlesnake.rmq.cloudamqp.com/rpjvuqrl
+        PORT: 3003
+    ports:
+        - 3003:3003
+    expose:
+        - 3003

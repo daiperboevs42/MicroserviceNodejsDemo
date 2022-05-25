@@ -1,14 +1,5 @@
 {
-  "name": "package.json",
   "type": "module",
-  "version": "1.0.0",
-  "description": "microservice demo",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Martin Wobbe",
-  "license": "ISC",
   "dependencies": {
     "rxjs": "^7.5.5",
     "amqplib": "^0.9.0",

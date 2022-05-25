@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-
+import { mongoose }  from "mongoose"
 const orderSchema = mongoose.Schema({
     customerID: {
        type: mongoose.SchemaTypes.ObjectId,
@@ -21,4 +20,4 @@ const orderSchema = mongoose.Schema({
 
 const Order = mongoose.model("order", orderSchema);
 
-module.exports = Order;
+export { Order }
