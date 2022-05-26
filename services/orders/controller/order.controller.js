@@ -11,11 +11,10 @@ let getAllOrders = function(req, res) {
         }
     });
 };
-
+//FIX THIS 
 let createOrder = function(req, res) {
     let bookID = req.params.bookid;
     let customerID = req.params.customerid;
-    console.log(bookID, " ", customerID)
     if(checkBookList(bookID) != null && checkCustomerList(customerID) != null){
         createOrderService(req, function(err, req) {
             if (err){

@@ -2,38 +2,32 @@ import { listenForMessages, publishToChannel } from '../controller/rabbitMQ/rabb
 let bookList = []
 let customerList = []
 
-function checkBookList(bookID){
-    console.log(bookList)
-    if(bookList.some(e => e._id === bookID)){
-        return e
-    }
-    /*bookList.forEach(element => {
-        if(element._id === bookID) //element.id == bookID
-            return element
-    });*/
+async function checkBookList(bookID){
+    await bookList.forEach(element => {
+        if(element._id === bookID){
+            return element;
+        } 
+    });
     return null;
 }
 
-function checkCustomerList(customerID){
-    customerList.forEach(element => {
-        if(element._id === customerID) //element.id == customerID
-            return element
+async function checkCustomerList(customerID){
+    await customerList.forEach(element => {
+        if(element._id === customerID){
+            return element;
+        }
     });
     return null;
 }
 
 async function HandleGetBookList(data) {
     bookList = []
-    for(var i in data){
-    bookList.push([i, data [i]]);}
-    //bookList.push(data)
+    bookList = data;
 }
 
 async function HandleGetCustomer(data) {
     customerList = []
-    for(var i in data)
-    customerList.push([i, data [i]]);
-    //customerList.push(data)
+    customerList = data;
 }
 
 // consume messages from RabbitMQ

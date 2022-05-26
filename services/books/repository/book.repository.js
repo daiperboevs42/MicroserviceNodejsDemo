@@ -31,9 +31,4 @@ let deleteBook = async function(req, res){
     res(null, deletedBook);
 }
 
-let findBookMessage = async function(){
-  const foundBook = await Book.find();
-  return foundBook;
-}
-
-export { getAllBooks , createBook, getBookWithID, deleteBook, findBookMessage};
+export { getAllBooks , createBook, getBookWithID, deleteBook};

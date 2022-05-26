@@ -31,6 +31,7 @@ app.post('/createOrder/:bookid/:customerid', function (req, res) {
     createOrder(req, function(err, eventResult) {
         if (err){
             console.log(err);
+            res.send("Error has accured : " + err);
         }
         else{
             res.send(eventResult);

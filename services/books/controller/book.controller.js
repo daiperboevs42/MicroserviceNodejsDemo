@@ -1,6 +1,6 @@
 'use strict';
 import { createBook as createBookService, getAllBooks as getAllBooksService, 
-         getBookWithID as getBookWithIDService, deleteBook as deleteBookService, findBookMessage} from '../service/book.service.js'
+         getBookWithID as getBookWithIDService, deleteBook as deleteBookService} from '../service/book.service.js'
          import { listenForMessages, publishToChannel } from './rabbitMQ/rabbitMQHelper.js'
 
 let getAllBooks = function(req, res) {
@@ -46,8 +46,13 @@ let deleteBook = function(req, res) {
 }
 
 async function HandleGetBook() {
-    let data = await findBookMessage();
-    publishToChannel( { routingKey: "cacheList", exchangeName: "books", data: data });
+    getAllBooksService({}, function(err, aListOfBooks) {
+        if (err){
+            console.log(err)
+        }else{
+            publishToChannel( { routingKey: "cacheList", exchangeName: "books", data: aListOfBooks });
+        }
+    });
 }
 
 // consume messages from RabbitMQ
