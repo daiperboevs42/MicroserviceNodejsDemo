@@ -1,13 +1,14 @@
 'use strict';
 import { createCustomer as createCustomerService, getAllCustomers as getAllCustomersService, 
-         getCustomerWithID as getCustomerWithIDService, deleteCustomer as deleteCustomerService} from '../service/customer.service.js'
+         getCustomerWithID as getCustomerWithIDService, deleteCustomer as deleteCustomerService, findCustomerMessage} from '../service/customer.service.js'
+         import { listenForMessages, publishToChannel } from './rabbitMQ/rabbitMQHelper.js'
 
-let getAllCustomers = function(request, response) {
-    getAllCustomersService(request, function(err, aListOfCustomers) {
+let getAllCustomers = function(req, res) {
+    getAllCustomersService(req, function(err, aListOfCustomers) {
         if (err){
-            response(err, null);
+            res(err, null);
         }else{
-            response(null, aListOfCustomers);
+            res(null, aListOfCustomers);
         }
     });
 };
@@ -17,29 +18,55 @@ let createCustomer = function(req, res) {
         if (err){
             res(err, null);
         }else{
+            HandleGetCustomer() 
             res(null, customerInfo);
         }
     });
 };
 
-let getCustomerWithID = function(request, response) {
-    getCustomerWithIDService(request, function(err, foundCustomer) {
+let getCustomerWithID = function(req, res) {
+    getCustomerWithIDService(req, function(err, foundCustomer) {
         if (err){
-            response(err, null);
+            res(err, null);
         }else{
-            response(null, foundCustomer);
+            res(null, foundCustomer);
         }
     })
 }
 
-let deleteCustomer = function(request, response) {
-    deleteCustomerService(request, function(err, customerToDelete) {
+let deleteCustomer = function(req, res) {
+    deleteCustomerService(req, function(err, customerToDelete) {
         if (err){
-            response(err, null);
+            res(err, null);
         }else{
-            response(null, customerToDelete);
+            HandleGetCustomer() 
+            res(null, customerToDelete);
         }
     })
 }
+
+async function HandleGetCustomer() {
+    let data = await findCustomerMessage();
+     publishToChannel( { routingKey: "cacheList", exchangeName: "customers", data: data });
+ }
+ 
+ // consume messages from RabbitMQ
+ const consume = function consume({ connection, channel, resultsChannel }) {
+     return new Promise((resolve, reject) => {
+         channel.consume("customers.requestCache", async function (msg) {
+            // parse message
+            let msgBody = msg.content.toString();
+            let data = JSON.parse(msgBody);
+
+             // process data
+             HandleGetCustomer();
+   
+             // acknowledge message as processed successfully
+             await channel.ack(msg);
+         });
+     });
+   }
+ listenForMessages(consume);
+ HandleGetCustomer()
 
 export { getAllCustomers, createCustomer, getCustomerWithID, deleteCustomer};

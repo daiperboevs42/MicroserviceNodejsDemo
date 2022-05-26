@@ -31,6 +31,9 @@ services:
         
   orders:
     image: orders
+    depends_on:
+      - books
+      - customers
     build:
       context: services/orders
       dockerfile: ./Dockerfile

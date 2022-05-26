@@ -1,32 +1,43 @@
 'use strict';
 import { createOrder as createOrderService, getAllOrders as getAllOrdersService, getOrderWithID as getOrderWithIDService} from '../service/order.service.js'
+import { checkBookList, checkCustomerList} from '../service/cache.service.js'
 
-let getAllOrders = function(request, response) {
-    getAllOrdersService(request, function(err, aListOfOrders) {
+let getAllOrders = function(req, res) {
+    getAllOrdersService(req, function(err, aListOfOrders) {
         if (err){
-            response(err, null);
+            res(err, null);
         }else{
-            response(null, aListOfOrders);
+            res(null, aListOfOrders);
         }
     });
 };
 
 let createOrder = function(req, res) {
-    createOrderService(req, function(err, orderInfo) {
+    let bookID = req.params.bookid;
+    let customerID = req.params.customerid;
+    console.log(bookID, " ", customerID)
+    if(checkBookList(bookID) != null && checkCustomerList(customerID) != null){
+        createOrderService(req, function(err, req) {
+            if (err){
+                res(err, null);
+            }else{
+                res(null, req);
+            }
+        });
+    }
+    else{
+        console.log("It no worky")
+        return "Failed to confirm book or customer ID"
+    }
+};
+
+let getOrderWithID = function(req, res) {
+    let orderID = req.param.id;
+    getOrderWithIDService(orderID, function(err, foundOrder) {
         if (err){
             res(err, null);
         }else{
-            res(null, orderInfo);
-        }
-    });
-};
-
-let getOrderWithID = function(request, response) {
-    getOrderWithIDService(request, function(err, foundOrder) {
-        if (err){
-            response(err, null);
-        }else{
-            response(null, foundOrder);
+            res(null, foundOrder);
         }
     })
 }

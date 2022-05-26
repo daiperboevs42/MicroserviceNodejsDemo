@@ -1,7 +1,7 @@
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 
-import {createCustomer, getAllCustomers, getCustomerWithID, deleteCustomer} from './service/customer.service.js'
+import {createCustomer, getAllCustomers, getCustomerWithID, deleteCustomer} from './controller/customer.controller.js'
 // Express
 
 const app = require('express')();
@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3002;
 app.use(bodyParser.json());
 
 app.get('/getAllCustomers', function (req, res) {
-    getAllCustomers(change, function(err, eventResult) {
+    getAllCustomers(req, function(err, eventResult) {
         if (err){
             console.log(err);
         }
@@ -40,7 +40,7 @@ app.post('/createCustomer', function (req, res) {
 });
 
 app.get('/customer/:id', (req, res) => {
-    let customerID = req.body;
+    let customerID = req.params.id;
     getCustomerWithID(customerID, function(err, eventResult) {
         if (err){
             console.log(err);
@@ -52,7 +52,7 @@ app.get('/customer/:id', (req, res) => {
 })
 
 app.delete('/customer/:id', (req, res) => {
-    let customerID = req.body;
+    let customerID = req.params.id;
     deleteCustomer(customerID, function(err, eventResult) {
         if (err){
             console.log(err);

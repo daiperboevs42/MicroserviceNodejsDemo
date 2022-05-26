@@ -1,5 +1,5 @@
 import { mongoose }  from "mongoose"
-const orderSchema = mongoose.Schema({
+const orderSchema = new mongoose.Schema({
     customerID: {
        type: mongoose.SchemaTypes.ObjectId,
        require: true
@@ -18,6 +18,6 @@ const orderSchema = mongoose.Schema({
      }
 })
 
-const Order = mongoose.model("order", orderSchema);
+const Order = mongoose.model("orders", orderSchema);
 
 export { Order }

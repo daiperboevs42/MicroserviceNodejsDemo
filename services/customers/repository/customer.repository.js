@@ -1,45 +1,39 @@
 'use strict';
+import {  } from '../db/mongoseDB.js'
 import { Customer } from '../db/Customer.js'
 
+
 let getAllCustomers =  async function(req, res) {
-  const allCustomers = await Customer.find()
-  if (err){
+  const allCustomers = await Customer.find().catch(err =>{
     res(err, null);
-}else{
+});
     res(null, allCustomers);
 }
-};
 
 let createCustomer =  async function(req, res) {
-  let customerData = req.body;
-  const newCustomer = await Book.create(customerData)
-  console.log(newCustomer)
-  if (err){
+  const newCustomer = await Customer.create(req).catch(err =>{
     res(err, null);
-}else{
+});
     res(null, newCustomer);
 }
-};
 
 let getCustomerWithID = async function(req, res){
-  let customerID = req.body
-  const foundCustomer = await Book.findById(customerID)
-  console.log(foundCustomer)
-  if (err){
+  const foundCustomer = await Customer.findById(req).catch(err =>{
     res(err, null);
-}else{
+  });
     res(null, foundCustomer);
-}
 }
 
 let deleteCustomer = async function(req, res){
-  let customerID = req.body
-  const deletedCustomer = await Book.deleteOne({_id: customerID})
-  if (err){
+  const deletedCustomer = await Customer.deleteOne({_id: req}).catch(err =>{
     res(err, null);
-}else{
+});
     res(null, deletedCustomer);
 }
+
+let findCustomerMessage = async function(){
+  const foundCustomer = await Customer.find();
+  return foundCustomer;
 }
 
-export { getAllCustomers , createCustomer, getCustomerWithID, deleteCustomer};
+export { getAllCustomers , createCustomer, getCustomerWithID, deleteCustomer, findCustomerMessage};

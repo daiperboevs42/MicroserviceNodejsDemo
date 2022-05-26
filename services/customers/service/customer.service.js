@@ -1,6 +1,6 @@
 'use strict';
 import {createCustomer as createCustomerRepository, getAllCustomers as getAllCustomersRepository,
-        getCustomerWithID as getCustomerWithIDRepository, deleteCustomer as deleteCustomerRepository} from '../repository/customer.repository.js'
+        getCustomerWithID as getCustomerWithIDRepository, deleteCustomer as deleteCustomerRepository, findCustomerMessage as findCustomerMessageRepository} from '../repository/customer.repository.js'
 
 
 let getAllCustomers = function(request, response) {
@@ -34,13 +34,17 @@ let getCustomerWithID = function(request, response) {
 }
 
 let deleteCustomer = function(request, response) {
-    deleteCustomerRepository(request, function(err, bookToDelete) {
+    deleteCustomerRepository(request, function(err, customerToDelete) {
         if (err){
             response(err, null);
         }else{
-            response(null, bookToDelete);
+            response(null, customerToDelete);
         }
     })
 }
 
-export {getAllCustomers, createCustomer, getCustomerWithID, deleteCustomer};
+let findCustomerMessage = function() {
+    return findCustomerMessageRepository() 
+}
+
+export {getAllCustomers, createCustomer, getCustomerWithID, deleteCustomer, findCustomerMessage};

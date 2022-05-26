@@ -3,7 +3,7 @@
 const amqp = require('amqplib');
 
 // RabbitMQ connection string
-const messageQueueConnectionString = process.env.AMQP_URL || 'amqp://localhost';
+const messageQueueConnectionString = process.env.AMQP_URL || 'amqps://rpjvuqrl:0d0c1RUA6Xxu7KViPcv4EPkdVZsMKYnk@rattlesnake.rmq.cloudamqp.com/rpjvuqrl';
 
 async function setup() {
     console.log("Setting up RabbitMQ Exchanges/Queues");
@@ -16,18 +16,19 @@ async function setup() {
 
     /// Order stuff
     await channel.assertExchange("books", "direct", { durable: true });
+    await channel.assertExchange("customers", "direct", { durable: true });
 
     // create queues
-    await channel.assertQueue("books.requestBook", { durable: true });
-    await channel.assertQueue("books.recieveBook", { durable: true });
-    await channel.assertQueue("customers.requestCustomer", { durable: true });
-    await channel.assertQueue("customers.recieveCustomer", { durable: true });
+    await channel.assertQueue("books.requestCache", { durable: true });
+    await channel.assertQueue("books.cacheList", { durable: true });
+    await channel.assertQueue("customers.requestCache", { durable: true });
+    await channel.assertQueue("customers.cacheList", { durable: true });
 
     // bind queues
-    await channel.bindQueue("books.requestBook","books", "requestBook");
-    await channel.bindQueue("books.recieveBook","books", "recieveBook");
-    await channel.bindQueue("customers.requestCustomer","customers", "requestCustomer");
-    await channel.bindQueue("customers.receiveCustomer","customers", "receiveCustomer");
+    await channel.bindQueue("books.requestCache","books", "requestCache");
+    await channel.bindQueue("books.cacheList","books", "cacheList");
+    await channel.bindQueue("customers.requestCache","customers", "requestCache");
+    await channel.bindQueue("customers.cacheList","customers", "cacheList");
 
     console.log("Setup Done");
     process.exit();

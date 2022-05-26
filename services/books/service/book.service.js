@@ -1,6 +1,6 @@
 'use strict';
 import {createBook as createBookRepostory, getAllBooks as getAllBooksRepostory,
-        getBookWithID as getBookWithIDRepository, deleteBook as deleteBookRepository} from '../repository/book.repository.js'
+        getBookWithID as getBookWithIDRepository, deleteBook as deleteBookRepository, findBookMessage as findBookMessageRepository} from '../repository/book.repository.js'
 
 
 let getAllBooks = function(request, response) {
@@ -43,4 +43,8 @@ let deleteBook = function(request, response) {
     })
 }
 
-export {getAllBooks, createBook, getBookWithID, deleteBook};
+let findBookMessage = function() {
+    return findBookMessageRepository() 
+}
+
+export {getAllBooks, createBook, getBookWithID, deleteBook, findBookMessage};

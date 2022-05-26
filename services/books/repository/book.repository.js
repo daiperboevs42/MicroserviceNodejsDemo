@@ -1,45 +1,39 @@
 'use strict';
+import {  } from '../db/mongoseDB.js'
 import { Book } from '../db/Book.js'
 
+
 let getAllBooks =  async function(req, res) {
-  const allBooks = await Book.find()
-  if (err){
+  const allBooks = await Book.find().catch(err =>{
     res(err, null);
-}else{
+  });
     res(null, allBooks);
-}
 };
 
 let createBook =  async function(req, res) {
-  let bookData = req.body;
-  const newBook = await Book.create(bookData)
-  console.log(newBook)
-  if (err){
+  const newBook = await Book.create(req).catch(err =>{
     res(err, null);
-}else{
+  });
     res(null, newBook);
-}
 };
 
 let getBookWithID = async function(req, res){
-  let bookID = req.body
-  const foundBook = await Book.findById(bookID)
-  console.log(foundBook)
-  if (err){
+  const foundBook = await Book.findById(req).catch(err =>{
     res(err, null);
-}else{
+  });
     res(null, foundBook);
-}
 }
 
 let deleteBook = async function(req, res){
-  let bookID = req.body
-  const deletedBook = await Book.deleteOne({_id: bookID})
-  if (err){
+  const deletedBook = await Book.deleteOne({_id: req}).catch(err =>{
     res(err, null);
-}else{
+});
     res(null, deletedBook);
 }
+
+let findBookMessage = async function(){
+  const foundBook = await Book.find();
+  return foundBook;
 }
 
-export { getAllBooks , createBook, getBookWithID, deleteBook};
+export { getAllBooks , createBook, getBookWithID, deleteBook, findBookMessage};

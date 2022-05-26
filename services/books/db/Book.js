@@ -1,5 +1,5 @@
 import { mongoose }  from "mongoose"
-const bookSchema = mongoose.Schema({
+const bookSchema = new mongoose.Schema({
   title: {
      type: String,
      require: true
@@ -18,6 +18,6 @@ const bookSchema = mongoose.Schema({
    }
 })
 
-const Book = mongoose.model("book", bookSchema);
+const Book = mongoose.model("Books", bookSchema);
 
 export { Book }

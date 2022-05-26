@@ -1,6 +1,6 @@
 import { connect } from "amqplib";
 
-const messageQueueConnectionString = process.env.AMQP_URL || 'amqp://localhost';
+const messageQueueConnectionString = process.env.AMQP_URL || 'amqps://rpjvuqrl:0d0c1RUA6Xxu7KViPcv4EPkdVZsMKYnk@rattlesnake.rmq.cloudamqp.com/rpjvuqrl';
 
 // utility function to publish messages to a channel
 const publishToChannel = async function publishToChannel( { routingKey, exchangeName, data }) {

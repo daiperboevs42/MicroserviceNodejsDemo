@@ -27,10 +27,8 @@ app.get('/getAllOrders', function (req, res) {
     });
 });
 
-app.post('/createOrder', function (req, res) {
-    let newOrder = req.body;
-    console.log(newOrder);
-    createOrder(newOrder, function(err, eventResult) {
+app.post('/createOrder/:bookid/:customerid', function (req, res) {
+    createOrder(req, function(err, eventResult) {
         if (err){
             console.log(err);
         }
@@ -41,8 +39,7 @@ app.post('/createOrder', function (req, res) {
 });
 
 app.get('/order/:id', (req, res) => {
-    let bookID = req.body;
-    getOrderWithID(bookID, function(err, eventResult) {
+    getOrderWithID(req, function(err, eventResult) {
         if (err){
             console.log(err);
         }

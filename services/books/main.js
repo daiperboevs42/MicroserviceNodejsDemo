@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3001;
 app.use(bodyParser.json());
 
 app.get('/getAllBooks', function (req, res) {
-    getAllBooks(change, function(err, eventResult) {
+    getAllBooks(req, function(err, eventResult) {
         if (err){
             console.log(err);
         }
@@ -41,7 +41,7 @@ app.post('/createBook', function (req, res) {
 });
 
 app.get('/book/:id', (req, res) => {
-    let bookID = req.body;
+    let bookID = req.params.id;
     getBookWithID(bookID, function(err, eventResult) {
         if (err){
             console.log(err);
@@ -53,7 +53,7 @@ app.get('/book/:id', (req, res) => {
 })
 
 app.delete('/book/:id', (req, res) => {
-    let bookID = req.body;
+    let bookID = req.params.id;
     deleteBook(bookID, function(err, eventResult) {
         if (err){
             console.log(err);
